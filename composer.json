@@ -1,0 +1,29 @@
+{
+    "name": "ratkor/flysystem-gs",
+    "description": "Flysystem adapter for Google storage",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ratko Rudic",
+            "email": "ratko@kramfid.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "league/flysystem": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "mockery/mockery": "0.9.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "RatkoR\\Flysystem\\Gs\\": "src/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "min-stability": "dev",
+    "prefer-stable": true
+}
