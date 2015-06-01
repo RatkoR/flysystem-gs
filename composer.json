@@ -1,5 +1,5 @@
 {
-    "name": "RatkoR/flysystem-gs",
+    "name": "ratkor/flysystem-gs",
     "description": "Flysystem adapter for Google storage",
     "license": "MIT",
     "authors": [
