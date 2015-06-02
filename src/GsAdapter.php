@@ -4,6 +4,11 @@ use League\Flysystem\Adapter\Local;
 
 class GsAdapter extends Local
 {
+    protected static $permissions = [
+        'public' => 'public-read',
+        'private' => 'private',
+    ];
+
    /**
      * Constructor.
      *
@@ -21,17 +26,15 @@ class GsAdapter extends Local
         $location = $this->applyPathPrefix($path);
         $this->ensureDirectory(dirname($location));
 
-        if (($size = file_put_contents($location, $contents)) === false) {
+        $options = ['gs' => ['acl' => static::$permissions['public']]];
+        $ctx = stream_context_create($options);
+
+        if (($size = file_put_contents($location, $contents, 0, $ctx)) === false) {
             return false;
         }
 
         $type = 'file';
         $result = compact('contents', 'type', 'size', 'path');
-
-        if ($visibility = $config->get('visibility')) {
-            $result['visibility'] = $visibility;
-            $this->setVisibility($path, $visibility);
-        }
 
         return $result;
     }
@@ -46,5 +49,18 @@ class GsAdapter extends Local
         }
 
         return compact('path', 'size', 'contents', 'mimetype');
+    }
+
+    public function setVisibility($path, $visibility)
+    {
+        $location = $this->applyPathPrefix($path);
+
+        $options = ['gs' => ['acl' => static::$permissions[$visibility]]];
+        $ctx = stream_context_create($options);
+
+        rename($location, $location.'1', $ctx);
+        rename($location.'1', $location, $ctx);
+
+        return compact('visibility');
     }
 }
