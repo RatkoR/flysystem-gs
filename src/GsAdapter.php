@@ -18,9 +18,12 @@ class GsAdapter extends Local
      */
     public function __construct($root)
     {
-        $realRoot = $this->ensureDirectory($root);
+        $this->setPathPrefix($root);
+    }
 
-        $this->setPathPrefix($realRoot);
+    protected function ensureDirectory($root)
+    {
+        return $root;
     }
 
     public function write($path, $contents, Config $config)
@@ -28,7 +31,12 @@ class GsAdapter extends Local
         $location = $this->applyPathPrefix($path);
         $this->ensureDirectory(dirname($location));
 
-        $options = ['gs' => ['acl' => static::$permissions['public']]];
+        $options = [
+            'gs' => [
+                'acl' => static::$permissions['public'],
+                'Content-Type' => Util::guessMimeType($path, $contents);
+            ]
+        ];
         $ctx = stream_context_create($options);
 
         if (($size = file_put_contents($location, $contents, 0, $ctx)) === false) {
