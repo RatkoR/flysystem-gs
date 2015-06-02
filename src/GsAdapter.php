@@ -1,6 +1,8 @@
 <?php namespace RatkoR\Flysystem\Gs;
 
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Config;
+use League\Flysystem\Util;
 
 class GsAdapter extends Local
 {
