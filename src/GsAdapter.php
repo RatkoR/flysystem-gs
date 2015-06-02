@@ -34,7 +34,7 @@ class GsAdapter extends Local
         $options = [
             'gs' => [
                 'acl' => static::$permissions['public'],
-                'Content-Type' => Util::guessMimeType($path, $contents);
+                'Content-Type' => Util::guessMimeType($path, $contents),
             ]
         ];
         $ctx = stream_context_create($options);
