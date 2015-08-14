@@ -9,6 +9,7 @@ class GsAdapter extends Local
     protected static $permissions = [
         'public' => 'public-read',
         'private' => 'private',
+        'dir'     => ['public'=>'0777'],
     ];
 
    /**
